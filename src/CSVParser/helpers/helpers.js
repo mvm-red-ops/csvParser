@@ -257,7 +257,7 @@ export function formatAirDateAndSchedLength(date, sched){
 
 
 
-const initialState = {
+export const initialState = {
   file:null,
   fileUploaded: false,
   data: null,

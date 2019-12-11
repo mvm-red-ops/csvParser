@@ -12,7 +12,6 @@ import Alert from 'react-bootstrap/Alert'
 import './CSVParser.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ScheduleTable from '../components/Tables/ScheduleTable';
-import {initialState} from '../components/imports'
 import { setNetwork,
   onChange,
   updateData,
@@ -23,7 +22,8 @@ import { setNetwork,
   setHeaderStateTrue,
   setFieldsHandler,
   handleNext,
-  updateSched
+  updateSched,
+  initialState
 } from './helpers/helpers'
 export default class CSVParser extends Component {
     constructor(props) {
@@ -107,8 +107,6 @@ export default class CSVParser extends Component {
         addError, 
         setHeaderStateTrue, 
         updateAirDateRequirement, 
-        setFieldsHandler,
-        resetState,
         setNetwork,
         displayForm,
         setVersion, 

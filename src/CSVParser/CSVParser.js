@@ -119,8 +119,9 @@ export default class CSVParser extends Component {
       const displayVersionDropdown = network && !version 
       const displayFileUploadButton = version && !fileUploaded
       const displayExportButton = fieldsEstablished || schedLengthSelected
-      const renderAirDate = fields && !fieldsEstablished && cellTitle === 'Air Date?' && katz
-      const renderScheduleButton = fields && !fieldsEstablished && cellTitle === 'Schedule Length' && katz && !schedLengthSelected
+      const midfield = fields && !fieldsEstablished&& katz
+      const renderAirDate =  midfield && cellTitle === 'Air Date?' 
+      const renderScheduleButton = midfield && cellTitle === 'Schedule Length' && !schedLengthSelected
 
       return(
         <>

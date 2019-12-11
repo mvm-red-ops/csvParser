@@ -2,11 +2,14 @@ import React from 'react'
 
 export function setNetwork(e, data){
   e.preventDefault()
+
+  //grab network value from data options
   const network = data.options[data.value - 1]
+
   if(this.state.downloadHeaders){
     this.resetToSecondState()
   }
-  
+  console.log(network.katz)
   if( !network ){
     this.setState({
       network: network,
@@ -30,36 +33,42 @@ export function onChange(e){
 }
 
 
+//this function takes the parsed CSV data and makes the necessary formatting adjustments
 
 export function updateData(result) {
   const data = result.data;
+
+  //add version number to data object
   const versionData = data.map( d => {
     d['Version'] = this.state.version.value
     return d
   })
-  const fields = Object.keys(data[0])
-  const cleanBlankFields = fields.filter(f => f !== '')
-  let idCounter = 0
 
+  //get fields from CSV
+  const fields = Object.keys(data[0])
+
+  //filter out blank columns
+  const cleanBlankFields = fields.filter(f => f !== '')
+
+  //set id for unique keys
+  //and create field Objects variable which holds formatted headers for export
+  let idCounter = 0
   const fieldObjects = cleanBlankFields.map(textField => {
     idCounter++;
     return {header: textField, required: false, id: idCounter};
   })
-  idCounter++;
-  fieldObjects.push({header: 'Version', required: false, key: idCounter})
 
   const fieldObjectsForDownload = cleanBlankFields.map(textField => {
     idCounter++;
     return {label: textField, key: idCounter};
   })
-  idCounter++
-  fieldObjectsForDownload.push({label: 'Version', key: idCounter})
-  
+
+  //if network selected is a katz network 
   if(this.state.katz){
     this.setState({
       data: data,
       fields: fieldObjects,
-      downloadHeaders: fieldObjectsForDownload,
+      downloadHeaders: fieldObjects,
       instructions: 'Click on "Air Date" Field'
     });
   } else {
@@ -190,13 +199,6 @@ export function setFieldsHandler(e){
   })
 }
 
-export function resetState(){
-  this.setState(initialState)
-}
-
-export function resetToSecondState(){
-  this.setState(secondState)
-}
 
 export function handleNext(e){
   e.preventDefault()
@@ -280,21 +282,5 @@ const initialState = {
   headerSelected: null
 }
 
-const secondState = {
-  file:null,
-  fileUploaded: false,
-  data: null,
-  fields: null,
-  csvData: [],
-  csvReady: null,
-  requiredHeaders: null,
-  fieldObjectsForDownload: null,
-  headersSet: false,
-  rowsSet: false,
-  downloadHeaders: null,
-  errors: [],
-  currentAirDate: null,
-  version: null,
-  cellTitle: 'Air Date?'
-}
+
 

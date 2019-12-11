@@ -12,7 +12,7 @@ import Alert from 'react-bootstrap/Alert'
 import './CSVParser.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ScheduleTable from '../components/Tables/ScheduleTable';
-import {initialState, secondState} from '../components/imports'
+import {initialState} from '../components/imports'
 import { setNetwork,
   onChange,
   updateData,
@@ -22,8 +22,6 @@ import { setNetwork,
   displayForm,
   setHeaderStateTrue,
   setFieldsHandler,
-  resetState,
-  resetToSecondState,
   handleNext,
   updateSched
 } from './helpers/helpers'
@@ -43,11 +41,8 @@ export default class CSVParser extends Component {
         this.displayForm = displayForm.bind(this)
         this.setHeaderStateTrue = setHeaderStateTrue.bind(this)
         this.setFieldsHandler = setFieldsHandler.bind(this)
-        this.resetState = resetState.bind(this)
-        this.resetToSecondState = resetToSecondState.bind(this)
         this.handleNext = handleNext.bind(this)
         this.updateSched = updateSched.bind(this)
-        this.renderAlert = this.renderAlert.bind(this)
       }
 
      exportCSV(){
@@ -59,6 +54,7 @@ export default class CSVParser extends Component {
           )
         }
 
+      //parse csv, on completion call update data function
       getData(file){
         const data = Papa.parse(file, {
             header: true,
@@ -67,6 +63,8 @@ export default class CSVParser extends Component {
         })
       }
     
+    //used for when katz networks are selected and user is selecting air date or schedule length on table
+    //made so only one field can be selected at a time. so if someone clicks two fields a popup is rendered 
     renderAlert(){
       return(
         <Alert variant="danger" onClose={() => this.closeAlert()} dismissible>
@@ -83,6 +81,7 @@ export default class CSVParser extends Component {
         alert: false
       })
     }
+
 
     render(){
       const { 
@@ -129,7 +128,8 @@ export default class CSVParser extends Component {
         <>
             <div className="alert-div">
                 { alert ? renderAlert() : null }
-              </div>
+            </div>
+            
             <div className='csv-wrapper'>
               { network ? <h1>{ version ? `${network.text}: Prelog Version ${version.value}` : network.text }</h1> : null}
               <div className='instructions-div'>
@@ -137,17 +137,29 @@ export default class CSVParser extends Component {
                 { renderAirDate ? AirDateNextButton(handleNext) : null}
                 { renderScheduleButton ? SchedLengthNextButton(handleNext) : null}
               </div>
-              
-              <div className='file-upload-div'>
-               { displayNetworkDropdown ? <NetworkDropdown setNetwork={setNetwork} /> : null }
-               { displayVersionDropdown ? <VersionDropdown setVersion={setVersion} /> : null  }
-               { displayFileUploadButton ? displayForm() : null}
-               {!katz && data? this.exportCSV() : null }
-               { displayExportButton ? this.exportCSV() : null}
-              </div>        
+              <div className='dropdown-div'>
+                {/* 
+                  div responsible for rendering dropdown menus 
+                  when network is selected from network dropdown, state is set
 
-              
+                */}
+                { displayNetworkDropdown ? <NetworkDropdown setNetwork={setNetwork} /> : null }
+                { displayVersionDropdown ? <VersionDropdown setVersion={setVersion} /> : null  }
+              </div>        
+              <div className='file-upload-div'>
+                {/* div responsible for upload and export */}
+                { displayFileUploadButton ? displayForm() : null}
+                {!katz && data? this.exportCSV() : null }
+                { displayExportButton ? this.exportCSV() : null}
+              </div>
+
+
+
               <div>
+               {/* 
+                  only present when the network selected is katz
+                  table div for selecting columns 
+               */}
                 { renderAirDate ? 
                 <ResultTable 
                   data={data} 

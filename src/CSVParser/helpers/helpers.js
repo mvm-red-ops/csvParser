@@ -46,7 +46,7 @@ export function updateData(result) {
 
   //get fields from CSV
   const fields = Object.keys(data[0])
-
+  
   //filter out blank columns
   const cleanBlankFields = fields.filter(f => f !== '')
 
@@ -258,14 +258,23 @@ export function formatAirDateAndSchedLength(date, sched){
 
 
 export const initialState = {
+  //state is blocked off into groups based on phase of render
+
+  //first phase
+  instructions: "Select A Network",
+  network: null,
+  version: null,
+
+
+  //second phase - csv file is uploaded / 
   file:null,
   fileUploaded: false,
   data: null,
   fields: null,
-  network: null,
   csvData: [],
   csvReady: null,
-  instructions: "Select A Network",
+
+  //phase three - csv being processed
   requiredHeaders: null,
   fieldObjectsForDownload: null,
   headersSet: false,
@@ -273,13 +282,15 @@ export const initialState = {
   downloadHeaders: null,
   errors: [],
   table: null,
-  version: null,
   cellTitle: 'Air Date?',
   currentAirDate: null,
   airDateSelected: null,
   schedLengthSelected: null,
-  alert: null,
-  headerSelected: null
+  headerSelected: null,
+
+  //helper
+  alert: null
+
 }
 
 

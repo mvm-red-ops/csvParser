@@ -26,24 +26,7 @@ import { setNetwork,
   initialState
 } from './helpers/helpers'
 export default class CSVParser extends Component {
-    constructor(props) {
-        super(props)
-        this.state = initialState
-        this.onChange = onChange.bind(this)
-        this.updateData = updateData.bind(this)
-        this.setMasterCsv = setMasterCsv.bind(this)
-        this.setNetwork = setNetwork.bind(this)
-        this.onChange = onChange.bind(this)
-        this.updateData = updateData.bind(this)
-        this.setMasterCsv = setMasterCsv.bind(this)
-        this.setVersion = setVersion.bind(this)
-        this.updateAirDateRequirement = updateAirDateRequirement.bind(this)
-        this.displayForm = displayForm.bind(this)
-        this.setHeaderStateTrue = setHeaderStateTrue.bind(this)
-        this.setFieldsHandler = setFieldsHandler.bind(this)
-        this.handleNext = handleNext.bind(this)
-        this.updateSched = updateSched.bind(this)
-      }
+
 
      exportCSV(){
         const fieldObjectsForDownload = this.state.fieldObjectsForDownload
@@ -70,12 +53,13 @@ export default class CSVParser extends Component {
         <Alert variant="danger" onClose={() => this.closeAlert()} dismissible>
           <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
           <p>
-            Only one field can be selected for Air Date. Unselect any previous selction before choosing another field.
+            Only one field can be selected for Air Date. Unselect any previous selection before choosing another field.
           </p>
         </Alert>
         )
       }
 
+    //closes alert window
     closeAlert(){
       this.setState({
         alert: false
@@ -114,7 +98,7 @@ export default class CSVParser extends Component {
         renderAlert,
         updateSched
       } = this 
-  
+
       const displayNetworkDropdown = !network
       const displayVersionDropdown = network && !version 
       const displayFileUploadButton = version && !fileUploaded
@@ -124,37 +108,36 @@ export default class CSVParser extends Component {
       const renderScheduleButton = midfield && cellTitle === 'Schedule Length' && !schedLengthSelected
 
       return(
-        <>
+        <React.Fragment>
             <div className="alert-div">
                 { alert ? renderAlert() : null }
             </div>
             
             <div className='csv-wrapper'>
+              {/* Display Header with network and version information */}
               { network ? <h1>{ version ? `${network.text}: Prelog Version ${version.value}` : network.text }</h1> : null}
+
               <div className='instructions-div'>
+                {/*  display instructions conditionally */}
                 {instructions}
                 { renderAirDate ? AirDateNextButton(handleNext) : null}
                 { renderScheduleButton ? SchedLengthNextButton(handleNext) : null}
               </div>
-              <div className='dropdown-div'>
-                {/* 
-                  div responsible for rendering dropdown menus 
-                  when network is selected from network dropdown, state is set
 
-                */}
+              <div className='dropdown-div'>
+                {/* render dropdown menus  when network is selected from network dropdown */}
                 { displayNetworkDropdown ? <NetworkDropdown setNetwork={setNetwork} /> : null }
                 { displayVersionDropdown ? <VersionDropdown setVersion={setVersion} /> : null  }
               </div>        
+
               <div className='file-upload-div'>
                 {/* div responsible for upload and export */}
                 { displayFileUploadButton ? displayForm() : null}
-                {!katz && data? this.exportCSV() : null }
+                {!katz && data ? this.exportCSV() : null }
                 { displayExportButton ? this.exportCSV() : null}
               </div>
 
-
-
-              <div>
+              <div className="table-div">
                {/* 
                   only present when the network selected is katz
                   table div for selecting columns 
@@ -191,8 +174,27 @@ export default class CSVParser extends Component {
               { fileUploaded && !data ? this.getData(file) : null }
 
             </div>
-        < />
+        </React.Fragment>
         )
     }
+
+        constructor(props) {
+        super(props)
+        this.state = initialState
+        this.onChange = onChange.bind(this)
+        this.updateData = updateData.bind(this)
+        this.setMasterCsv = setMasterCsv.bind(this)
+        this.setNetwork = setNetwork.bind(this)
+        this.onChange = onChange.bind(this)
+        this.updateData = updateData.bind(this)
+        this.setMasterCsv = setMasterCsv.bind(this)
+        this.setVersion = setVersion.bind(this)
+        this.updateAirDateRequirement = updateAirDateRequirement.bind(this)
+        this.displayForm = displayForm.bind(this)
+        this.setHeaderStateTrue = setHeaderStateTrue.bind(this)
+        this.setFieldsHandler = setFieldsHandler.bind(this)
+        this.handleNext = handleNext.bind(this)
+        this.updateSched = updateSched.bind(this)
+      }
 }
 

@@ -18,7 +18,7 @@ class App extends Component {
       <div className="App" style={appStyle}>
           <div className="text-box">
             <h1 className="heading-primary">
-              <span class="heading-primary-main">Refactor</span>
+              <span class="heading-primary-main">MVM Toolshed</span>
               <span class="heading-primary-sub">CSV Parser</span>
             </h1>
           </div>

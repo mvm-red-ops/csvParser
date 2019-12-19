@@ -170,9 +170,6 @@ export default class CSVParser extends Component {
                     updateSched={updateSched}
                   /> : null }
               </div>
-
-              { fileUploaded && !data ? this.getData(file) : null }
-
             </div>
         </React.Fragment>
         )

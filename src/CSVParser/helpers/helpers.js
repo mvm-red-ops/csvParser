@@ -29,7 +29,7 @@ export function onChange(e){
   this.setState({
       file:e.target.files[0],
       fileUploaded: true
-  })
+  }, () => this.getData(this.state.file))
 }
 
 

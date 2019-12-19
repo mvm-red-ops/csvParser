@@ -28,23 +28,23 @@ import { setNetwork,
 export default class CSVParser extends Component {
 
 
-     exportCSV(){
-        const fieldObjectsForDownload = this.state.fieldObjectsForDownload
-        return(
-          <CSVLink className='export-button' data={this.state.data} headers={fieldObjectsForDownload}>
-            Export
-          </CSVLink>
-          )
-        }
-
-      //parse csv, on completion call update data function
-      getData(file){
-        const data = Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            complete: this.updateData
-        })
+    exportCSV(){
+      const fieldObjectsForDownload = this.state.fieldObjectsForDownload
+      return(
+        <CSVLink className='export-button' data={this.state.data} headers={fieldObjectsForDownload}>
+          Export
+        </CSVLink>
+        )
       }
+
+    //parse csv, on completion call update data function
+    getData(file){
+      const data = Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: this.updateData
+      })
+    }
     
     //used for when katz networks are selected and user is selecting air date or schedule length on table
     //made so only one field can be selected at a time. so if someone clicks two fields a popup is rendered 

@@ -9,7 +9,6 @@ export function setNetwork(e, data){
   if(this.state.downloadHeaders){
     this.resetToSecondState()
   }
-  console.log(network.katz)
   if( !network ){
     this.setState({
       network: network,
@@ -37,6 +36,7 @@ export function onChange(e){
 
 export function updateData(result) {
   const data = result.data;
+  //debugger
 
   //add version number to data object
   const versionData = data.map( d => {
@@ -153,21 +153,8 @@ export function updateAirDateRequirement(e, id, header ){
   else if( !airdDateId ){
     airdDateId = id
   }
-
-
-  const updatedHeaders = this.state.fields.map( header => { 
-    if(header.id === id){
-      header.required = !header.required
-    }; 
-    return header
-  });
-  
-  this.setState({
-    headers: updatedHeaders,
-    airdDateId: airdDateId
-  })
-
 }
+
 
 export function displayForm(){
 return(
@@ -200,10 +187,17 @@ export function setFieldsHandler(e){
 }
 
 
+
+//function for handling click on next button when result table and schedule table are rendered
 export function handleNext(e){
   e.preventDefault()
   
+  // airDateSelected is null when this function is invoked from the results table
+  //  so it is only not null when the schedule table is presented 
+  //  if the user is selecing sched length from the schedule table, we enter the if block
   if(this.state.airDateSelected){
+
+    //grab indices and values from state and data
     const dateIdx = this.state.airdDateId - 1
     const schedIdx = this.state.schedLengthId - 1
     const data = this.state.data
@@ -211,6 +205,7 @@ export function handleNext(e){
     const dateCol = dataKeys[dateIdx]
     const schedCol = dataKeys[schedIdx] 
     
+    //map through data, reformat date column 
     data.map( data => {
       let date = data[dateCol].split('/')
       let month = date[0].length < 2 ? `0${date[0]}` : date[0]
@@ -218,6 +213,7 @@ export function handleNext(e){
       let year = date[2] < 4 ? `20${date[2]}` : date[2]
       const reformattedDate = `${month}/${day}/${year}`
       data[dateCol] = reformattedDate
+
       //reformat time
       let length = data[schedCol]
       const time = length.split(':')

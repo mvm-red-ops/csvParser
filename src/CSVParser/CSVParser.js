@@ -142,6 +142,8 @@ export default class CSVParser extends Component {
                   only present when the network selected is katz
                   table div for selecting columns 
                */}
+
+
                 { renderAirDate ? 
                 <ResultTable 
                   data={data} 

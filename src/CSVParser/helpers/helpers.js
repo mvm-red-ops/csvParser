@@ -14,13 +14,13 @@ export function setNetwork(e, data){
       network: network,
       katz: null,
       instructions: "Select a Network"
-    })
+    }, () => console.log('non katz'))
   } else {
     this.setState({
       network: network,
       katz: network.katz,
       instructions: "Select a Version Number"
-    })
+    }, () => console.log(' katz'))
   }
 }
 
@@ -32,18 +32,17 @@ export function onChange(e){
 }
 
 
-//this function takes the parsed CSV data and makes the necessary formatting adjustments
-
+//this function takes the parsed CSV data and makes the necessary formatting adjustments 
 export function updateData(result) {
   const data = result.data;
-  //debugger
 
   //add version number to data object
   const versionData = data.map( d => {
-    d['Version'] = this.state.version.value
+    //format object
+    d = formatObj(d)
     return d
   })
-
+  
   //get fields from CSV
   const fields = Object.keys(data[0])
   
@@ -58,11 +57,7 @@ export function updateData(result) {
     return {header: textField, required: false, id: idCounter};
   })
 
-  const fieldObjectsForDownload = cleanBlankFields.map(textField => {
-    idCounter++;
-    return {label: textField, key: idCounter};
-  })
-
+  
   //if network selected is a katz network 
   if(this.state.katz){
     this.setState({
@@ -75,7 +70,7 @@ export function updateData(result) {
     this.setState({
       data: versionData,
       fields: fieldObjects,
-      downloadHeaders: fieldObjectsForDownload,
+      downloadHeaders: fieldObjects,
       instructions: 'Click "Export" to Download CSV'
     });
   }
@@ -95,17 +90,17 @@ export function setMasterCsv(rowData){
 export function setVersion(e, data){
 e.preventDefault()
 const version = data.options[data.value - 1]
-if( !version ){
-  this.setState({
-    version: version,
-    instructions: "Select a Version"
-  })
-} else {
-  this.setState({
-    version: version,
-    instructions: "Upload a Prelog"
-  })
-}
+  if( !version ){
+    this.setState({
+      version: version,
+      instructions: "Select a Version"
+    })
+  } else {
+    this.setState({
+      version: version,
+      instructions: "Upload a Prelog"
+    })
+  }
 }
 
 export function updateSched(e, id, header){
@@ -290,4 +285,20 @@ export const initialState = {
 }
 
 
+//MOD(DATEDIFF("d", "05/6/2017 9:00:00", GETDATETIME()), 7)
 
+
+
+const formatObj = (d) => {
+  //check for and remove blank values 
+  if(d[''] == ''){
+    delete d['']
+  }
+
+  //set version
+  d['Version'] = this.state.version.value
+
+  //format rate
+  const currencyValues = Object.values(d).filter(o => o.includes('$'))
+debugger
+}

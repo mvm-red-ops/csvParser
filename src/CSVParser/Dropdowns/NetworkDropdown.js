@@ -7,7 +7,7 @@ const options = [
   { key: 3, text: "BounceTV", value: 3, katz: true },
   { key: 4, text: "CBS Sports", value: 4, katz: false },
   { key: 5, text: "CourtTV", value: 5, katz: false },
-  { key: 6, text: "EscapeTV", value: 6, katz: true },
+  { key: 6, text: "CourtTV Mystery", value: 6, katz: true },
   { key: 7, text: "GritTV", value: 7, katz: true },
   { key: 8, text: "Justice Network", value: 8, katz: false },
   { key: 9, text: "Laff", value: 9, katz: true },
